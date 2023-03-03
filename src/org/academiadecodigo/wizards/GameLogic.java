@@ -1,11 +1,6 @@
 package org.academiadecodigo.wizards;
 
-import jdk.nashorn.internal.runtime.logging.DebugLogger;
-import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-
-import java.io.PrintStream;
-import java.net.Socket;
+d
 import java.util.LinkedList;
 
 public class GameLogic {
@@ -13,29 +8,41 @@ public class GameLogic {
     LinkedList<String> words = new LinkedList<>();
     // Opção 1 - Palavras do jogo.
     String reverseWord;
-
     Server.Client player;
 
     public GameLogic(Server.Client x) {
         this.player = x;
-        createWords();
-        getRandomWord();
-        createQuestion();
+        //playRound();
     }
 
 
+    public void playRound() {
+        createWords();
+        String secretWord = getRandomWord();
+        String answer = createQuestion(secretWord);
+        String reverseSecretWord = reverserWord(secretWord);
+
+        System.out.println("Rev Solution -> " + reverseSecretWord);
+        System.out.println("Answer Solution -> " + answer);
+        if(compareWords(answer, reverseSecretWord)){
+            System.out.println("WORDS ARE EQUAL!");
+            return;
+        }
+
+        System.out.println("WORDS ARE DIFFERENT");
+
+    }
     //private String getUserInput() {
     //return }
 
     public void createWords() {
-        words.add("crapicornio");
-        words.add("merculina");
-        words.add("aclitedes");
-        words.add("streetsonthenights");
-        words.add("carlaocaralho");
-        words.add("deixatedemerdasfafonso");
-        words.add("coolcoolcool");
-        words.add("jogomaisdivertido");
+        words.add("car");
+        words.add("bycicle");
+        words.add("dog");
+        words.add("jar");
+        words.add("bitch");
+        words.add("walcome");
+        words.add("totona");
     }
 
     public String getRandomWord() {
@@ -46,41 +53,21 @@ public class GameLogic {
         return randomWord;
     }
 
-    public void createQuestion() {
+    public String createQuestion(String selectWord) {
 
-
-        String selectWord = getRandomWord();
-        player.askQuestion("Type the following word in reverse " + selectWord);
-
-    }
-
-    public void playRound(){
-        while(clientList == playerAnswersList)
+        return player.askQuestion("\n" +  "So, let´s try type the following word in reverse: " + selectWord);
 
     }
 
 
-
-
-
-    /*public String reverserWord() {
-        String sText = getRandomWord();
-        String sReverse = new StringBuilder(sText).reverse().toString();
-        reverseWord = sReverse;
-        //System.out.println(reverseWord);
-        return sReverse;
+    public boolean compareWords(String userReverseWord, String solutionReversed) {
+        return userReverseWord.equals(solutionReversed);
     }
 
-   */ public void validateWord(String x) {
 
-        Prompt prompt = new Prompt(System.out, new PrintStream(player.getOutputStream());
-        String userWord = prompt.getUserInput();
-
-
-        if(userWord.equals(reverseWord));
-
-
+    public String reverserWord(String sText) {
+        reverseWord = new StringBuilder(sText).reverse().toString();
+        return reverseWord;
     }
 
-*/
 }
