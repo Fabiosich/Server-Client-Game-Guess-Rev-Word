@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLOutput;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,8 +18,8 @@ public class Server {
     private String message;
     private ServerSocket serverSocket;
     private Socket clientSocket;
-
-    List<Client> clientList = new LinkedList<Client>();
+    private GameLogic gameLogic;
+    List<Client> clientList = new LinkedList<>();
 
     public static void main(String[] args) {
 
@@ -26,6 +27,7 @@ public class Server {
         Server server = new Server();
         // meter o servidor a ouvir
         server.getConnections();
+
 
     }
 
@@ -59,9 +61,6 @@ public class Server {
                 // podemos por a logica do serverworker
                 // ver serverworker / thread
 
-                for (Client x :clientList) {
-                    System.out.println( x.getUsername());
-                }
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -91,8 +90,9 @@ public class Server {
     /**
      * CLIENTE
      * <p>
-     *                       todo  cliente
+     * to do cliente
      */
+
 
     public class Client implements Runnable {
         Socket socket;
@@ -110,6 +110,13 @@ public class Server {
             }
         }
 
+
+        public String askQuestion(String message) {
+            StringInputScanner question = new StringInputScanner();
+            question.setMessage(message);
+            return prompt.getUserInput(question);
+
+        }
 
         public void listen() {
             // prompt
@@ -148,8 +155,8 @@ public class Server {
         @Override
         public void run() {
             logIn();
-
+            GameLogic game = new GameLogic(this);
         }
     }
-
 }
+
