@@ -1,6 +1,5 @@
 package org.academiadecodigo.wizards;
 
-d
 import java.util.LinkedList;
 
 public class GameLogic {
@@ -26,10 +25,12 @@ public class GameLogic {
         System.out.println("Answer Solution -> " + answer);
         if(compareWords(answer, reverseSecretWord)){
             System.out.println("WORDS ARE EQUAL!");
+            System.out.println("YOU'VE WON! :) ");
             return;
         }
 
         System.out.println("WORDS ARE DIFFERENT");
+        System.out.println("YOU'VE LOST! :( ");
 
     }
     //private String getUserInput() {
@@ -37,11 +38,11 @@ public class GameLogic {
 
     public void createWords() {
         words.add("car");
-        words.add("bycicle");
+        words.add("bicycle");
         words.add("dog");
         words.add("jar");
         words.add("bitch");
-        words.add("walcome");
+        words.add("welcome");
         words.add("totona");
     }
 
@@ -55,7 +56,7 @@ public class GameLogic {
 
     public String createQuestion(String selectWord) {
 
-        return player.askQuestion("\n" +  "So, let´s try type the following word in reverse: " + selectWord);
+        return player.askQuestion("\n" +  "So, let´s try to type the following word in reverse: " + selectWord);
 
     }
 
