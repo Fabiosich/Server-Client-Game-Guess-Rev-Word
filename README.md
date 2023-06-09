@@ -1,23 +1,23 @@
 # Server-Client Game
 
+- The server starts running and listens for incoming connections on port 8080.
+- Clients can connect to the server.
+- When a client connects, a Client object is created to handle their communication.
+- The Client object prompts the client to enter their username and adds the client to the server's client list.
+- The Client object sends a welcome message to the client, providing instructions about the game.
+- The Client object creates an instance of the GameLogic class to start the game logic.
+- The GameLogic class generates a list of words for the game.
+- The GameLogic class selects a random word from the list and sends a prompt to the client, asking them to type the word in reverse.
+- The client enters their response.
+- The GameLogic class compares the client's response with the reverse of the selected word.
+- If the client's response matches the reverse of the word, the game declares the client as the winner and displays a success message.
+- If the client's response does not match the reverse of the word, the game declares the client as the loser and displays a failure message.
+- The game ends for that client.
+- The server continues to accept connections from other clients, and the process repeats for each connected client.
+- That's the basic flow of the game. The server handles multiple clients simultaneously, and each client plays an independent game with the server's game logic.
 
-"_  _   _      _____  _____  _____   ______  _       ___ __   __  _    _  _____  ______  ___  ______ ______   _  _ \n" +
-                    "| || | | |    |  ___||_   _|/  ___|  | ___ \\| |     / _ \\\\ \\ / / | |  | ||_   _||___  / / _ \\ | ___ \\|  _  \\ | || |\n" +
-                    "| || | | |    | |__    | |  \\ `--.   | |_/ /| |    / /_\\ \\\\ V /  | |  | |  | |     / / / /_\\ \\| |_/ /| | | | | || |\n" +
-                    "| || | | |    |  __|   | |   `--. \\  |  __/ | |    |  _  | \\ /   | |/\\| |  | |    / /  |  _  ||    / | | | | | || |\n" +
-                    "|_||_| | |____| |___   | |  /\\__/ /  | |    | |____| | | | | |   \\  /\\  / _| |_ ./ /___| | | || |\\ \\ | |/ /  |_||_|\n" +
-                    "(_)(_) \\_____/\\____/   \\_/  \\____/   \\_|    \\_____/\\_| |_/ \\_/    \\/  \\/  \\___/ \\_____/\\_| |_/\\_| \\_||___/   (_)(_)\n" +
-                    "                                                                                                                   \n" +
-                    "\n" +
-                    "\n" +
-                    "                                      THE GAME WILL START WHEN ALL PLAYERS ARE ONLINE.\n" +
-                    "\n" +
-                    "                        A WORD WILL BE TYPED INTO THE TERMINAL AND YOU'LL HAVE TO WRITE IT IN REVERSE.\n" +
-                    "\n" +
-                    "                                             PRESS ENTER AFTER WRITING THE WORD.\n" +
-                    "\n" +
-                    "                                             YOU NEED TO BE AS QUICK AS POSSIBLE.\n" +
-                    "\n" +
-                    "                                      IF YOU ARE THE SLOWEST PLAYER, YOU WILL BE ELIMINATED.\n" +
-                    "\n" +
-                    "                                                     GOOD LUCK "
+Enjoy ;)
+
+
+
+
