@@ -2,39 +2,22 @@ package org.academiadecodigo.wizards;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLOutput;
 import java.util.LinkedList;
 import java.util.List;
 
-
-// do servidor para os clientes
 public class Server {
 
-    private String message;
     private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private GameLogic gameLogic;
-
-    private String username;
-    List<Client> clientList = new LinkedList<>();
+    private List<Client> clientList = new LinkedList<>();
 
     public static void main(String[] args) {
-
-        // instanciar server socket
         Server server = new Server();
-        // meter o servidor a ouvir
         server.getConnections();
-
-
     }
 
-
-    //configurar o server
     public Server() {
         try {
             serverSocket = new ServerSocket(8080);
@@ -44,30 +27,18 @@ public class Server {
         }
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-
     public void getConnections() {
         while (!serverSocket.isClosed()) {
             try {
                 System.out.println("Server is accepting players...");
 
-                clientSocket = serverSocket.accept();
+                Socket clientSocket = serverSocket.accept();
                 Client client = new Client(clientSocket);
 
-
-                //ver o executor
-                // 0 nosso client  vai ser runnable
                 Thread clientThread = new Thread(client);
                 clientThread.start();
 
-
                 System.out.println("Player " + client.getUsername() + " is connected to port " + clientSocket.getPort());
-                // podemos por a logica do serverworker
-                // ver serverworker / thread
-
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -75,44 +46,14 @@ public class Server {
         }
     }
 
-
-    public void sendStream() {
-        // connecta com um client
-        PrintWriter out;
-        try {
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // envia uma mensagem de test
-        message = "teste, cliente ligado";
-
-
-        out.println(message);
-
-
-    }
-
-    /**
-     * CLIENTE
-     * <p>
-     * to do cliente
-     */
-
-
     public class Client implements Runnable {
-        Socket socket;
-        String username;
-        BufferedReader breader;
-        Prompt prompt;
+        private Socket socket;
+        private String username;
+        private BufferedReader breader;
+        private Prompt prompt;
+        private GameLogic gameLogic;
 
-
-        GameLogic gameLogic;
-
-        // "configuracao"
         public Client(Socket socket) throws IOException {
-
             this.socket = socket;
             try {
                 prompt = new Prompt(socket.getInputStream(), new PrintStream(socket.getOutputStream()));
@@ -121,53 +62,27 @@ public class Server {
             }
         }
 
-
         public String askQuestion(String message) {
             StringInputScanner question = new StringInputScanner();
             question.setMessage(message);
             return prompt.getUserInput(question);
         }
 
-        public void eliminated() {
-            StringInputScanner right = new StringInputScanner();
-            // right.setMessage();
-
-        }
-
-        public void listen() {
-            // prompt
-
-            System.out.println("client waiting for input");
-            try {
-                breader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                breader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            // vamos roubar logica de ouvir algures
-        }
-
         public void setUsername(String username) {
             this.username = username;
-        }
-
-        public void logIn() throws IOException {
-
-            StringInputScanner question1 = new StringInputScanner();
-            question1.setMessage("\n" + "WRITE YOUR NICKNAME PLEASE \n");
-
-            username = prompt.getUserInput(question1);
-            clientList.add(this);
-
         }
 
         public String getUsername() {
             return username;
         }
 
-        StringInputScanner question = new StringInputScanner();
+        public void logIn() throws IOException {
+            StringInputScanner question1 = new StringInputScanner();
+            question1.setMessage("\nWRITE YOUR NICKNAME PLEASE\n");
 
+            username = prompt.getUserInput(question1);
+            clientList.add(this);
+        }
 
         public void welcome() throws IOException {
             DataOutputStream out = null;
@@ -187,7 +102,7 @@ public class Server {
                     "\n" +
                     "                                      THE GAME WILL START WHEN ALL PLAYERS ARE ONLINE.\n" +
                     "\n" +
-                    "                        A WORD WILL BE TYPED INTO THE TERMINAL AND YOU´LL HAVE TO WRITE IT IN REVERSE.\n" +
+                    "                        A WORD WILL BE TYPED INTO THE TERMINAL AND YOU'LL HAVE TO WRITE IT IN REVERSE.\n" +
                     "\n" +
                     "                                             PRESS ENTER AFTER WRITING THE WORD.\n" +
                     "\n" +
@@ -198,10 +113,8 @@ public class Server {
                     "                                                     GOOD LUCK " + username.toUpperCase() + "!!");
         }
 
-
         @Override
         public void run() {
-            System.out.println(Thread.currentThread().getName());
             try {
                 logIn();
                 welcome();
@@ -209,13 +122,9 @@ public class Server {
                 throw new RuntimeException(e);
             }
             GameLogic game = new GameLogic(this);
-
         }
-
     }
 }
-
-
 
 
 
